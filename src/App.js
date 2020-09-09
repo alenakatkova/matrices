@@ -1,9 +1,12 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
 
 function generateRandomInt() {
-  return Math.floor(Math.random() * 11) + 1;
+  return Math.floor(Math.random() * 10) + 1;
+}
+
+function getRandomArrayElement(array) {
+  return Math.floor(Math.random() * array.length);
 }
 
 function generateMatrix(m, n) {
@@ -25,23 +28,49 @@ function generateMatrix(m, n) {
   return matrix;
 }
 
-function drawMatrix(matrix) {
-  return matrix.map((row, index) => {
-    return <div key={`row${index}`}>{row.map(el => {
-      return <button key={`element${el.row}${el.column}`}>{el.value}</button>
-    })}</div>;
-  });
+let m = generateRandomInt();
+let n = generateRandomInt();
+let matrix = generateMatrix(m, n);
+let elementNumbers = [];
+for (let i = 0; i < matrix.length; i++) {
+  for (let j = 0; j < matrix[i].length; j++) {
+    elementNumbers.push(`${matrix[i][j].row}-${matrix[i][j].column}`);
+  }
 }
 
-function App() {
-  let m = generateRandomInt();
-  let n = generateRandomInt();
-  let matrix = generateMatrix(m, n);
-  console.log(matrix);
 
+
+
+function App() {
+
+
+  const [elToFind, setElToFind] = useState(elementNumbers[getRandomArrayElement(elementNumbers)]);
+
+  function getElementNumber(e) {
+    if (e.target.getAttribute('data-number') === elToFind) {
+      console.log(true);
+      setElToFind(elementNumbers[getRandomArrayElement(elementNumbers)]);
+    } else {
+      console.log(false);
+    }
+  }
+  function drawMatrix(matrix) {
+    return matrix.map((row, index) => {
+      return <div key={`row${index}`}>{row.map(el => {
+        let elNumber = `${el.row}-${el.column}`;
+        return <button
+            key={`element${elNumber}`}
+            data-number={elNumber}
+            onClick={getElementNumber}
+        >{el.value}</button>
+      })}</div>;
+    });
+  }
   return (
     <div className="App">
       {drawMatrix(matrix)}
+
+      <div>Click on el number {elToFind}</div>
     </div>
   );
 }
