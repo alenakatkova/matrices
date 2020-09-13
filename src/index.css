@@ -11,3 +11,23 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.App {
+  text-align: center;
+}
+
+.FindElement {
+  border-bottom: 1px solid gray;
+  padding: 10px 0;
+}
+
+.Shape {
+  border-bottom: 1px solid gray;
+  padding: 10px 0;
+}
+
+.matrix-element {
+  width: 30px;
+  height: 30px;
+  margin: 3px;
+}
