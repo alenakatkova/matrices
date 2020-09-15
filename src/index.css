@@ -12,13 +12,11 @@ code {
     monospace;
 }
 
-.App {
-  text-align: center;
-}
-
 .FindElement {
   border-bottom: 1px solid gray;
   padding: 10px 0;
+  display: flex;
+  justify-content: center;
 }
 
 .Shape {
@@ -30,4 +28,8 @@ code {
   width: 30px;
   height: 30px;
   margin: 3px;
+}
+
+.column {
+  margin: 30px;
 }

@@ -32,15 +32,19 @@ for (let i = 0; i < matrix.length; i++) {
 
 function FindElement() {
   const [elToFind, setElToFind] = useState(elementNumbers[getRandomArrayElement(elementNumbers)]);
+  const [questionCount, setQuestionCount] = useState(1);
+  const [answer, setAnswer] = useState(true);
 
   function getElementNumber(e) {
     if (e.target.getAttribute('data-number') === elToFind) {
-      console.log(true);
       setElToFind(elementNumbers[getRandomArrayElement(elementNumbers)]);
+      setQuestionCount(questionCount + 1);
+      setAnswer(true);
     } else {
-      console.log(false);
+      setAnswer(false);
     }
   }
+
   function drawMatrix(matrix) {
     return matrix.map((row, index) => {
       return <div key={`row${index}`}>{row.map(el => {
@@ -54,10 +58,15 @@ function FindElement() {
       })}</div>;
     });
   }
+
   return (
       <div className="FindElement">
-        {drawMatrix(matrix)}
-        <div>Click on el number {elToFind}</div>
+        <div className="column">{drawMatrix(matrix)}</div>
+        <div className="column">
+          <div>Click on el number {elToFind}</div>
+          <div>Question number: {questionCount}</div>
+          {!answer ? <div>Wrong answer</div> : ""}
+        </div>
       </div>
   );
 }
