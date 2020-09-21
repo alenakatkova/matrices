@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { generateRandomInt, getRandomArrayElement } from './utils'
 
 function generateMatrix(m, n) {
@@ -20,26 +20,45 @@ function generateMatrix(m, n) {
   return matrix;
 }
 
-let m = generateRandomInt();
-let n = generateRandomInt();
-let matrix = generateMatrix(m, n);
-let elementNumbers = [];
-for (let i = 0; i < matrix.length; i++) {
-  for (let j = 0; j < matrix[i].length; j++) {
-    elementNumbers.push(`${matrix[i][j].row}-${matrix[i][j].column}`);
+function getElNumbers(matrix) {
+  console.log(matrix);
+  let elNumbers = [];
+  for (let i = 0; i < matrix.length; i++) {
+    for (let j = 0; j < matrix[i].length; j++) {
+      elNumbers.push(`${matrix[i][j].row}-${matrix[i][j].column}`);
+    }
   }
+  return elNumbers;
 }
 
 function FindElement() {
-  const [elToFind, setElToFind] = useState(elementNumbers[getRandomArrayElement(elementNumbers)]);
+  const [matrix, setMatrix] = useState(generateMatrix(generateRandomInt(), generateRandomInt()));
+  const [elNumbers, setElNumbers] = useState([]);
+
   const [questionCount, setQuestionCount] = useState(1);
+  useEffect(function effectFunction() {
+    if (matrix) {
+      console.log("el")
+    setElNumbers(getElNumbers(matrix));
+    }
+  }, [matrix, questionCount]);
+
+  const [elToFind, setElToFind] = useState("");
+
+  useEffect(function effectFunction() {
+    if (elNumbers) {
+      setElToFind(elNumbers[getRandomArrayElement(elNumbers)]);
+    }
+  }, [elNumbers, questionCount]);
+
   const [answer, setAnswer] = useState(true);
+
 
   function getElementNumber(e) {
     if (e.target.getAttribute('data-number') === elToFind) {
-      setElToFind(elementNumbers[getRandomArrayElement(elementNumbers)]);
-      setQuestionCount(questionCount + 1);
       setAnswer(true);
+      setMatrix(generateMatrix(generateRandomInt(), generateRandomInt()));
+      setQuestionCount(questionCount + 1);
     } else {
       setAnswer(false);
     }
